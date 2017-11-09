@@ -18,8 +18,16 @@ app.get('/', (req, res) => {
 
 // FIXME: look at creation and return proper status code and response
 app.post('/signup', (req, res) => {
-  User.create(req.body);
-  res.json('User created successfully');
+  User.create(req.body).then((rows) => {
+    // Created
+    console.log(rows)
+    res.status(201);
+    res.json('User created successfully');
+  }).catch((err) => {
+    // Unprocessable entity
+    res.status(422);
+    res.json(err.message);
+  });
 });
 
 // Start listening for requests
