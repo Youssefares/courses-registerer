@@ -20,6 +20,11 @@ app.get('/', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
+  if (!('password' in req.body && 'username' in req.body &&
+    'email' in req.body)) {
+    res.status(422);
+    res.json('Required: email & username && password');
+  }
   User.create(req.body).then((rows) => {
     // Created
     const token = jwt.sign({ id: rows.insertId }, process.env.JWT_SECRET, {
@@ -38,6 +43,10 @@ app.post('/signup', (req, res) => {
 });
 
 app.post('/signin', (req, res) => {
+  if (!('password' in req.body && 'username' in req.body)) {
+    res.status(422);
+    res.json('Required: username && password');
+  }
   User.findBy('username', req.body.username).then((rows) => {
     if (md5(req.body.password) !== rows[0].password) {
       // Unauthorized
