@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 const User = require('./models/user');
 
 // Init express
@@ -16,13 +18,17 @@ app.get('/', (req, res) => {
   res.send('index that does absolutely nothing');
 });
 
-// FIXME: look at creation and return proper status code and response
 app.post('/signup', (req, res) => {
   User.create(req.body).then((rows) => {
     // Created
-    console.log(rows)
+    const token = jwt.sign({ id: rows.insertId }, process.env.JWT_SECRET, {
+      expiresIn: 86400, // expires in 24 hours
+    });
     res.status(201);
-    res.json('User created successfully');
+    res.json({
+      auth: true,
+      token,
+    });
   }).catch((err) => {
     // Unprocessable entity
     res.status(422);
