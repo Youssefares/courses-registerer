@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const md5 = require('md5');
 const User = require('./models/user');
 
 // Init express
@@ -22,7 +23,7 @@ app.post('/signup', (req, res) => {
   User.create(req.body).then((rows) => {
     // Created
     const token = jwt.sign({ id: rows.insertId }, process.env.JWT_SECRET, {
-      expiresIn: 86400, // expires in 24 hours
+      expiresIn: '7d', // expires in a week
     });
     res.status(201);
     res.json({
@@ -36,5 +37,26 @@ app.post('/signup', (req, res) => {
   });
 });
 
+app.post('/signin', (req, res) => {
+  User.findBy('username', req.body.username).then((rows) => {
+    if (md5(req.body.password) !== rows[0].password) {
+      // Unauthorized
+      res.status(401);
+      res.json('incorrect password');
+      return;
+    }
+    const token = jwt.sign({ id: rows.insertId }, process.env.JWT_SECRET, {
+      expiresIn: '7d', // expires in a week
+    });
+    res.status(200);
+    res.json({
+      auth: true,
+      token,
+    });
+  }).catch((err) => {
+    res.status(400);
+    res.json(err.message);
+  });
+});
 // Start listening for requests
 app.listen(process.env.PORT || 3000);
