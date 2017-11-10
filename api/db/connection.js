@@ -5,7 +5,7 @@ const pool = mysql.createPool({
   user: 'root',
   password: 'password',
   database: 'registerer_dev',
-  connectionLimit: 10,
+  connectionLimit: 10
 });
 
 module.exports = () => pool.getConnection().disposer((connection) => {
