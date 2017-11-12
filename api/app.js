@@ -63,7 +63,7 @@ app.post('/signin', (req, res) => {
       res.json('incorrect password');
       return;
     }
-    const token = jwt.sign({ id: rows.insertId }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: rows[0].id }, process.env.JWT_SECRET, {
       expiresIn: '7d' // expires in a week
     });
     res.status(200);
