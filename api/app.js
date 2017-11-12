@@ -4,15 +4,18 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
+const cors = require('cors');
 const User = require('./models/user');
 const authenticateUser = require('./helpers/authenticateUser');
-
 // Init express
 const app = express();
 app.use(bodyParser.json());
 
 // Use morgan for logging
 app.use(morgan('dev'));
+
+// Allow cross-origin
+app.use(cors());
 
 // Authentication Middleware for all except signin & signup
 app.all('*', authenticateUser);
@@ -75,4 +78,4 @@ app.post('/signin', (req, res) => {
 });
 
 // Start listening for requests
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 4000);
