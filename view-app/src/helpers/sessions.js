@@ -7,6 +7,11 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
+class ValidationError extends Error {}
+class WrongPasswordError extends Error {}
+class WrongUsernameError extends Error {}
+
+
 function register(username, email, password) {
   return fetch(`${apiUrl}/signup`, {
     method: 'POST',
@@ -18,10 +23,10 @@ function register(username, email, password) {
       password,
     }),
   }).then((response) => {
-    if (response.ok) {
+    if (response.status === 201) {
       response.json();
-    } else {
-      throw new Error(response);
+    } else if (response.status === 422) {
+      throw new ValidationError('unable to create user with given data');
     }
   });
 }
@@ -37,10 +42,13 @@ function logIn(username, password) {
     }),
   }).then((response) => {
     if (response.ok) {
-      return response.json();
+      response.json();
+    } else if (response.status === 401) {
+      throw new WrongPasswordError('wrong password for user');
+    } else if (response.status === 400) {
+      throw new WrongUsernameError('username does not exist');
     }
-    throw new Error(response);
   });
 }
 
-export { register, logIn };
+export { register, logIn, ValidationError, WrongUsernameError, WrongPasswordError };

@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import './Home.css';
-import { logIn } from '../../helpers/sessions'
+import { logIn, WrongUsernameError, WrongPasswordError } from '../../helpers/sessions';
 import { authenticateUser } from '../../helpers/auth';
 
-class SignIn extends React.Component{
-  constructor(props){
+class SignIn extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       username: '',
@@ -14,31 +14,48 @@ class SignIn extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
     logIn(this.state.username, this.state.password).then((response) => {
       authenticateUser(response.token);
-      this.setState({logInSuccessful: true});
     }).catch((error) => {
-      alert(error.message);
+      if (error instanceof WrongUsernameError) {
+        alert(error.message);
+      } else if (error instanceof WrongPasswordError) {
+        alert(error.message);
+      }
     });
   }
 
-  handleChange(event){
+  handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
-  render(){
+  render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <fieldset>
-          <input type="text" name="username" placeholder="username" id="usernameField" onChange={this.handleChange}/>
-          <input type="password" name="password" placeholder="password" id="passwordField" onChange={this.handleChange}/>
-          <div class="row">
-            <button class= "button-clear float-right" type= "button">forgot your password?</button>
-            <input class="button float-right" type="submit" value="log in"/>
+          <input
+            type="text"
+            name="username"
+            placeholder="username"
+            id="usernameField"
+            onChange={this.handleChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="password"
+            id="passwordField"
+            onChange={this.handleChange}
+          />
+          <div className="row">
+            <button className="button-clear float-right" type="button">
+              forgot your password?
+            </button>
+            <input className="button float-right" type="submit" value="log in" />
           </div>
         </fieldset>
       </form>
