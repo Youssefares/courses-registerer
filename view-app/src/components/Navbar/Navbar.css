@@ -24,7 +24,9 @@
     margin-bottom: 0;
 }
 
-.navbar li a {
+.navbar li button {
+    height: auto;
+    margin-bottom: 0;
     display: block;
     color: white;
     text-align: center;

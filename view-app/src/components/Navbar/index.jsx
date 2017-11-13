@@ -1,32 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Navbar.css';
+import { deauthenticateUser } from '../../helpers/auth';
 
-const Navbar = (props) => {
-  if (props.renderLogOut) {
+class Navbar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.logOut = this.logOut.bind(this);
+  }
+
+  logOut() {
+    this.props.authenticateUser();
+    deauthenticateUser();
+  }
+
+  render() {
+    if (this.props.renderLogOut) {
+      return (
+        <div className="navbar">
+          <ul>
+            <li><button className="active" onClick={this.logOut}>log out</button></li>
+            <div id="title">
+              <h2> courses registerer </h2>
+            </div>
+          </ul>
+        </div>
+      );
+    }
     return (
       <div className="navbar">
         <ul>
-          <li><a className="active">log out</a></li>
-          <div id="title"> 
+          <div id="title">
             <h2> courses registerer </h2>
           </div>
         </ul>
       </div>
     );
   }
-  return (
-    <div className="navbar">
-      <ul>
-        <div id="title"> 
-          <h2> courses registerer </h2>
-        </div>
-      </ul>
-    </div>
-  );
-};
-
+}
 Navbar.propTypes = {
   renderLogOut: PropTypes.bool.isRequired,
+  authenticateUser: PropTypes.func.isRequired,
 };
 export default Navbar;
