@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  if (!('password' in req.body && 'username' in req.body &&
+  if (!('body' in req && 'password' in req.body && 'username' in req.body &&
     'email' in req.body)) {
     res.status(422);
     res.json('Required: email & username && password');
@@ -51,7 +51,7 @@ app.post('/signup', (req, res) => {
 });
 
 app.post('/signin', (req, res) => {
-  if (!('password' in req.body && 'username' in req.body)) {
+  if (!('body' in req && 'password' in req.body && 'username' in req.body)) {
     res.status(422);
     res.json('Required: username && password');
     return;
