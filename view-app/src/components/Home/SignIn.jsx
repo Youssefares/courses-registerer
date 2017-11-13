@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './Home.css';
 import { logIn, WrongUsernameError, WrongPasswordError } from '../../helpers/sessions';
 import { authenticateUser } from '../../helpers/auth';
@@ -18,6 +20,7 @@ class SignIn extends React.Component {
     event.preventDefault();
     logIn(this.state.username, this.state.password).then((response) => {
       authenticateUser(response.token);
+      this.props.onAuthSuccess();
     }).catch((error) => {
       if (error instanceof WrongUsernameError) {
         alert(error.message);
@@ -62,4 +65,8 @@ class SignIn extends React.Component {
     );
   }
 }
+
+SignIn.propTypes = {
+  onAuthSuccess: PropTypes.func.isRequired,
+};
 export default SignIn;

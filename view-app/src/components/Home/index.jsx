@@ -1,24 +1,33 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+
 import './Home.css';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
-import { isUserAuthenticated } from '../../helpers/auth';
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      authSuccess: false,
+    };
+  }
+
   render() {
-    if (isUserAuthenticated()) {
+    const { authSuccess } = this.state;
+    if (authSuccess) {
       // TODO: render other component
-      return (<h1>welcome</h1>);
+      return (<Redirect to="/" />);
     }
     return (
       <div className="row">
         <div className="column column-33 column-offset-10">
           <h2>log in</h2>
-          <SignIn />
+          <SignIn onAuthSuccess={() => this.setState({ authSuccess: true })} />
         </div>
         <div className="column column-33 column-offset-10">
           <h2>register</h2>
-          <SignUp />
+          <SignUp onAuthSuccess={() => this.setState({ authSuccess: true })} />
         </div>
       </div>
     );

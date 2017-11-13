@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './Home.css';
 import { register, ValidationError } from '../../helpers/sessions';
 import { authenticateUser } from '../../helpers/auth';
@@ -21,6 +23,7 @@ class SignUp extends React.Component {
     register(this.state.username, this.state.email, this.state.password)
       .then((response) => {
         authenticateUser(response.token);
+        this.props.onAuthSuccess();
       }).catch((error) => {
         if (error instanceof ValidationError) {
           alert(error);
@@ -77,4 +80,8 @@ class SignUp extends React.Component {
     );
   }
 }
+
+SignUp.propTypes = {
+  onAuthSuccess: PropTypes.func.isRequired,
+};
 export default SignUp;

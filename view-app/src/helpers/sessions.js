@@ -25,7 +25,7 @@ function register(username, email, password) {
     }),
   }).then((response) => {
     if (response.status === 201) {
-      response.json();
+      return response.json();
     } else if (response.status === 422) {
       throw new ValidationError('unable to create user with given data');
     }
@@ -43,7 +43,7 @@ function logIn(username, password) {
     }),
   }).then((response) => {
     if (response.ok) {
-      response.json();
+      return response.json();
     } else if (response.status === 401) {
       throw new WrongPasswordError('wrong password for user');
     } else if (response.status === 400) {
