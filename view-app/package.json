@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "es6-error": "^4.0.2",
     "es6-promise": "^4.1.1",
     "isomorphic-fetch": "^2.2.1",
     "jest-cli": "^21.2.1",

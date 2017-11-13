@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import ExtendableError from 'es6-error';
 import config from '../config';
 
 const apiUrl = `http://${config.API_HOST}:${config.API_PORT}`;
@@ -7,9 +8,9 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-class ValidationError extends Error {}
-class WrongPasswordError extends Error {}
-class WrongUsernameError extends Error {}
+class ValidationError extends ExtendableError {}
+class WrongPasswordError extends ExtendableError {}
+class WrongUsernameError extends ExtendableError {}
 
 
 function register(username, email, password) {
