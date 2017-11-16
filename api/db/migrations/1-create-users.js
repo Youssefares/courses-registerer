@@ -1,4 +1,5 @@
-const connection = require('../connection');
+const Promise = require('bluebird');
+const getConnection = require('../connection');
 
 const createUsersSQL =
 'CREATE TABLE users (\
@@ -10,10 +11,5 @@ const createUsersSQL =
   PRIMARY KEY (id), UNIQUE(email), UNIQUE(username)\
 )';
 
-connection.query(createUsersSQL, (error) => {
-  if (error) {
-    throw error;
-  }
-});
-
-connection.end();
+Promise.using(getConnection(), connection => connection.query(createUsersSQL))
+  .then(() => console.log('table users created successfully'));
