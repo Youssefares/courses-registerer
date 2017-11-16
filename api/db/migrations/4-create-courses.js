@@ -17,6 +17,6 @@ const createCoursesSQL =
 Promise.using(getConnection(), (connection) => {
   connection.query(createCoursesSQL);
 }).then(() => {
-  console.log('table coursess created successfully');
+  console.log('table courses created successfully');
   process.exit(0);
 });
