@@ -12,4 +12,7 @@ const createUsersSQL =
 )';
 
 Promise.using(getConnection(), connection => connection.query(createUsersSQL))
-  .then(() => console.log('table users created successfully'));
+  .then(() => {
+    console.log('table users created successfully');
+    process.exit(0);
+  });

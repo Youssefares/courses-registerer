@@ -10,4 +10,7 @@ ADD CONSTRAINT `department_id` FOREIGN KEY (`department_id`) REFERENCES `departm
 ';
 
 Promise.using(getConnection(), connection => connection.query(addDepartmentToUsersSQL))
-  .then(() => console.log('foreign_key created and added successfully'));
+  .then(() => {
+    console.log('foreign_key created and added successfully');
+    process.exit(0);
+  });

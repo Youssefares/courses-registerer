@@ -11,4 +11,7 @@ const createDepartmentsSQL =
 
 
 Promise.using(getConnection(), connection => connection.query(createDepartmentsSQL))
-  .then(() => console.log('table departments created successfully'));
+  .then(() => {
+    console.log('table departments created successfully');
+    process.exit(0);
+  });
