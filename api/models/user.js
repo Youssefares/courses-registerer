@@ -10,6 +10,13 @@ class User extends Model {
       [args.email, args.username, md5(args.password)]
     ));
   }
+
+  static enrollDepartment(id, departmentId) {
+    return Promise.using(getConnection(), connection => connection.query(
+      'UPDATE users SET department_id =? WHERE id=?',
+      [departmentId, id]
+    ));
+  }
 }
 
 module.exports = User;

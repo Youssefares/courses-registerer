@@ -76,7 +76,7 @@ app.post('/signup', (req, res) => {
 app.post('/signin', (req, res) => {
   if (!('body' in req && 'password' in req.body && 'username' in req.body)) {
     res.status(422);
-    res.json('Required: username && password');
+    res.json('Required: username & password');
     return;
   }
   User.findBy('username', req.body.username).then((rows) => {
@@ -100,6 +100,18 @@ app.post('/signin', (req, res) => {
   }).catch((err) => {
     res.status(400);
     res.json(err.message);
+  });
+});
+
+app.put('/enroll', (req, res) => {
+  if (!('body' in req && 'user_id' in req.body && 'department_id' in req.body)) {
+    res.status(422);
+    res.json('Required: user_id & department_id');
+    return;
+  }
+  User.enrollDepartment(req.body.user_id, req.body.department_id).then(() => {
+    res.status(200);
+    res.json('Student enrolled successfully');
   });
 });
 
