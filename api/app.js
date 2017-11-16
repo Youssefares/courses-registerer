@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const md5 = require('md5');
 const cors = require('cors');
 const User = require('./models/user');
+const Department = require('./models/department');
 const authenticateUser = require('./helpers/authenticateUser');
 // Init express
 const app = express();
@@ -24,6 +25,13 @@ app.all('*', authenticateUser);
 
 app.get('/', (req, res) => {
   res.send('index that does absolutely nothing');
+});
+
+app.get('/departments', (req, res) => {
+  Department.all().then((rows) => {
+    res.status(200);
+    res.json(rows);
+  });
 });
 
 app.post('/signup', (req, res) => {
@@ -57,6 +65,9 @@ app.post('/signin', (req, res) => {
     return;
   }
   User.findBy('username', req.body.username).then((rows) => {
+    if (rows[0] == null) {
+      throw new Error('user not found');
+    }
     if (md5(req.body.password) !== rows[0].password) {
       // Unauthorized
       res.status(401);
@@ -76,6 +87,7 @@ app.post('/signin', (req, res) => {
     res.json(err.message);
   });
 });
+
 
 // Start listening for requests
 app.listen(process.env.PORT || 4000);
