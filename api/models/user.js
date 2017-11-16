@@ -10,13 +10,6 @@ class User extends Model {
       [args.email, args.username, md5(args.password)]
     ));
   }
-
-  static findBy(fieldName, fieldValue) {
-    return Promise.using(getConnection(), connection => connection.query(
-      `SELECT * FROM users WHERE ${fieldName}=?`,
-      [fieldValue]
-    ));
-  }
 }
 
 module.exports = User;

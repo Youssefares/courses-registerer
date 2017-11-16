@@ -10,13 +10,6 @@ class Department extends Model {
       [args.name, args.description]
     ));
   }
-
-  static all() {
-    return Promise.using(
-      getConnection(),
-      connection => connection.query('SELECT * FROM departments')
-    );
-  }
 }
 
 module.exports = Department;
