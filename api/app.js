@@ -7,6 +7,7 @@ const md5 = require('md5');
 const cors = require('cors');
 const User = require('./models/user');
 const Department = require('./models/department');
+const Course = require('./models/course');
 const authenticateUser = require('./helpers/authenticateUser');
 // Init express
 const app = express();
@@ -32,6 +33,20 @@ app.get('/departments', (req, res) => {
     res.status(200);
     res.json(rows);
   });
+});
+
+app.get('/courses', (req, res) => {
+  if (!('body' in req && 'department_id' in req.body)) {
+    Course.all().then((rows) => {
+      res.status(200);
+      res.json(rows);
+    });
+  } else {
+    Course.findBy('department_id', req.body.department_id).then((rows) => {
+      res.status(200);
+      res.json(rows);
+    });
+  }
 });
 
 app.post('/signup', (req, res) => {
