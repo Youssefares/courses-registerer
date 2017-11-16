@@ -10,6 +10,13 @@ class Course extends Model {
       [args.department_id, args.name, args.description, args.credit_hours, args.instructor_name]
     ));
   }
+
+  static all() {
+    return Promise.using(
+      getConnection(),
+      connection => connection.query('SELECT * FROM courses')
+    );
+  }
 }
 
 module.exports = Course;
