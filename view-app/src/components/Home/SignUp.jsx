@@ -22,7 +22,7 @@ class SignUp extends React.Component {
     event.preventDefault();
     register(this.state.username, this.state.email, this.state.password)
       .then((response) => {
-        authenticateUser(response.token);
+        authenticateUser(this.state.username, response.token);
         this.props.onAuthSuccess();
       }).catch((error) => {
         if (error instanceof ValidationError) {

@@ -1,4 +1,5 @@
-function authenticateUser(token){
+function authenticateUser(username, token){
+  localStorage.setItem('username', username);
   localStorage.setItem('auth-token', token);
 }
 
@@ -10,8 +11,11 @@ function deauthenticateUser() {
   localStorage.removeItem('auth-token');
 }
 
-function getAuthToken() {
-  return localStorage.getItem('auth-token');
+function currentUser() {
+  return {
+    username: localStorage.getItem('username'),
+    token: localStorage.getItem('auth-token'),
+  };
 }
 
 
@@ -19,5 +23,5 @@ export {
   authenticateUser,
   deauthenticateUser,
   isUserAuthenticated,
-  getAuthToken,
+  currentUser,
 };

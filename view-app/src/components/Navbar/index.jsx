@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Navbar.css';
-import { deauthenticateUser } from '../../helpers/auth';
+import { currentUser, deauthenticateUser } from '../../helpers/auth';
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class Navbar extends React.Component {
         <div className="navbar">
           <ul>
             <li><button className="active" onClick={this.logOut}>log out</button></li>
+            <li><button id="loggedIn"> Logged in as {currentUser().username}</button></li>
             <div id="title">
               <h2> courses registerer </h2>
             </div>

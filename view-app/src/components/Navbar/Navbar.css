@@ -10,15 +10,20 @@
 }
 
 #title {
-  margin: 0 auto;
+  margin-left: 40%;
 }
 
+#loggedIn{
+  background-color: #606C6F;
+  border: 0.1rem solid #606c76;
+}
 .navbar h2{
   color: white;
-  text-align: center;
+  /*text-align: center;*/
   margin-bottom: 0;
   padding:8px;
 }
+
 .navbar li {
     float: right;
     margin-bottom: 0;
@@ -31,10 +36,10 @@
     color: white;
     text-align: center;
     margin-right: 10px;
-    padding: 16px 24px;
+    padding: 11px 24px;
     text-decoration: none;
 }
 
-.navbar li a:hover {
+.navbar active li a:hover {
     background-color: #ab5dda;
 }
