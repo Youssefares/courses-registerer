@@ -5,11 +5,11 @@ import { currentUser } from './auth';
 const apiUrl = `http://${config.API_HOST}:${config.API_PORT}`;
 const headers = {
   Accept: 'application/json',
-  Authorization: currentUser().token,
   'Content-Type': 'application/json',
 };
 
 function enroll(departmentId) {
+  headers.Authorization = currentUser().token;
   return fetch(`${apiUrl}/enroll`, {
     method: 'PUT',
     headers,
@@ -25,6 +25,7 @@ function enroll(departmentId) {
 }
 
 function departments() {
+  headers.Authorization = currentUser().token;
   return fetch(`${apiUrl}/departments`, {
     method: 'GET',
     headers,
