@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import ExtendableError from 'es6-error';
 import config from '../config';
 import { currentUser } from './auth';
 
@@ -10,8 +9,19 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-function enroll(department_id) {
-  // body...
+function enroll(departmentId) {
+  return fetch(`${apiUrl}/enroll`, {
+    method: 'PUT',
+    headers,
+    mode: 'cors',
+    body: JSON.stringify({
+      department_id: departmentId,
+    }),
+  }).then((response) => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
 }
 
 function departments() {
