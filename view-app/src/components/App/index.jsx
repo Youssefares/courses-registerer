@@ -10,19 +10,24 @@ import './App.css';
 import Home from '../Home';
 import Department from '../Department';
 import Navbar from '../Navbar';
-import { isUserAuthenticated } from '../../helpers/auth';
+import { isUserAuthenticated, currentUser } from '../../helpers/auth';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      signed_in: isUserAuthenticated(),
+      signed_in: currentUser() != null,
     };
+    isUserAuthenticated().then((response) => {
+      this.setState({ signed_in: response.status === 200 });
+    });
     this.authenticateUser = this.authenticateUser.bind(this);
   }
 
   authenticateUser() {
-    this.setState({ signed_in: isUserAuthenticated() });
+    isUserAuthenticated().then((response) => {
+      this.setState({ signed_in: response.status === 200 });
+    });
   }
 
   render() {

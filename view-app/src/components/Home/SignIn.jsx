@@ -19,8 +19,7 @@ class SignIn extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     logIn(this.state.username, this.state.password).then((response) => {
-      authenticateUser(this.state.username, response.token);
-      this.props.onAuthSuccess();
+      authenticateUser(response.token, this.props.onAuthSuccess);
     }).catch((error) => {
       if (error instanceof WrongUsernameError) {
         alert(error.message);

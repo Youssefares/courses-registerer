@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
   // Skip auth for session creation routes
-  if (req.path === '/signup' || req.path === '/signin') {
+  if (req.path === '/signup' || req.path === '/signin' || req.path === '/auth') {
     return next();
   }
   // Authenticate

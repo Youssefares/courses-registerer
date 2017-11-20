@@ -28,6 +28,35 @@ app.get('/', (req, res) => {
   res.send('index that does absolutely nothing');
 });
 
+app.post('/auth', (req, res) => {
+  if (!('body' in req && 'token' in req.body)) {
+    res.status(422);
+    res.json('Required: token');
+  }
+  jwt.verify(req.body.token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      res.status(401).json({
+        auth: false,
+        message: 'Failed to authenticate token.'
+      });
+    }
+    const { id } = decoded;
+    User.findBy('id', id).then((rows) => {
+      if (rows[0] == null) {
+        res.status(401).json('user not found');
+      } else {
+        res.status(200).json({
+          id: rows[0].id,
+          username: rows[0].username,
+          email: rows[0].email,
+          department_id: rows[0].department_id,
+          token: req.body.token
+        });
+      }
+    });
+  });
+});
+
 app.get('/departments', (req, res) => {
   Department.all().then((rows) => {
     res.status(200);
