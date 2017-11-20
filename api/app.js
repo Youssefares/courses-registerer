@@ -64,7 +64,7 @@ app.get('/departments', (req, res) => {
   });
 });
 
-app.get('/courses', (req, res) => {
+app.post('/courses', (req, res) => {
   if (!('body' in req && 'department_id' in req.body)) {
     Course.all().then((rows) => {
       res.status(200);

@@ -1,14 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { departments, enroll } from '../../helpers/departments';
 import './Department.css';
+import Courses from '../Courses';
 
 class Department extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       departments: [],
+      department: 1,
       viewCourses: false,
     };
     this.createDropdownDepartments = this.createDropdownDepartments.bind(this);
@@ -29,10 +30,12 @@ class Department extends React.Component {
   onDepartmentChange(event) {
     this.setState({
       department: event.target.value,
+      viewCourses: false,
     });
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
+    event.preventDefault();
     enroll(this.state.department);
   }
 
@@ -44,7 +47,8 @@ class Department extends React.Component {
     return items;
   }
 
-  viewCourses() {
+  viewCourses(event) {
+    event.preventDefault();
     this.setState({
       viewCourses: true,
     });
@@ -81,9 +85,10 @@ class Department extends React.Component {
                 </div>
               </fieldset>
             </form>
-            {/* TODO: replace 'courses' with Courses Component */}
-            { this.state.viewCourses ? 'courses' : null }
           </div>
+        </div>
+        <div>
+          { this.state.viewCourses ? <Courses departmentId={this.state.department} /> : null }
         </div>
       </div>
     );
