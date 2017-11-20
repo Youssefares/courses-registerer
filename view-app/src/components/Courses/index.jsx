@@ -13,7 +13,6 @@ class Courses extends React.Component {
 
   componentDidMount() {
     const self = this;
-    alert(this.props.departmentId);
     courses(this.props.departmentId).then((response) => {
       self.setState({
         courses: response,
