@@ -10,8 +10,8 @@ class Navbar extends React.Component {
   }
 
   logOut() {
-    this.props.authenticateUser();
     deauthenticateUser();
+    this.props.authenticateUser();
   }
 
   render() {
