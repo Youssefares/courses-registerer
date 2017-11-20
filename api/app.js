@@ -104,14 +104,18 @@ app.post('/signin', (req, res) => {
 });
 
 app.put('/enroll', (req, res) => {
-  if (!('body' in req && 'user_id' in req.body && 'department_id' in req.body)) {
+  const { id } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+  if (!('body' in req && 'department_id' in req.body)) {
     res.status(422);
-    res.json('Required: user_id & department_id');
+    res.json('Required: department_id');
     return;
   }
-  User.enrollDepartment(req.body.user_id, req.body.department_id).then(() => {
+  User.enrollDepartment(id, req.body.department_id).then(() => {
     res.status(200);
     res.json('Student enrolled successfully');
+  }).catch((err) => {
+    res.status(404);
+    res.json(err.message);
   });
 });
 
