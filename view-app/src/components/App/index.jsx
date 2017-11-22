@@ -18,7 +18,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       signed_in: currentUser() != null,
-      enrolled: currentUser().department_id,
+      enrolled: null,
     };
 
     isUserAuthenticated().then((response) => {
