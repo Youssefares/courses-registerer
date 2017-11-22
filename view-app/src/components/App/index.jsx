@@ -9,6 +9,7 @@ import {
 import './App.css';
 import Home from '../Home';
 import Department from '../Department';
+import Courses from '../Courses';
 import Navbar from '../Navbar';
 import { isUserAuthenticated, currentUser } from '../../helpers/auth';
 
@@ -17,17 +18,38 @@ class App extends React.Component {
     super(props);
     this.state = {
       signed_in: currentUser() != null,
+      enrolled: currentUser().department_id,
     };
+
     isUserAuthenticated().then((response) => {
       this.setState({ signed_in: response.status === 200 });
+      if (response.status === 200) {
+        response.json().then((response) => {
+          if (this.state.signed_in) {
+            this.setState({ enrolled: response.department_id });
+          }
+        });
+      }
     });
     this.authenticateUser = this.authenticateUser.bind(this);
+    this.enroll = this.enroll.bind(this);
   }
 
   authenticateUser() {
     isUserAuthenticated().then((response) => {
       this.setState({ signed_in: response.status === 200 });
+      if (response.status === 200) {
+        response.json().then((response) => {
+          if (this.state.signed_in) {
+            this.setState({ enrolled: response.department_id });
+          }
+        });
+      }
     });
+  }
+
+  enroll() {
+    this.authenticateUser();
   }
 
   render() {
@@ -39,10 +61,26 @@ class App extends React.Component {
             <Switch>
               <Route
                 exact
+                path="/courses"
+                render={() => {
+                  if (!this.state.signed_in) {
+                    return (<Redirect to="/login" />);
+                  }
+                  if (this.state.enrolled) {
+                    return (<Courses departmentId={this.state.enrolled} />);
+                  }
+                  return (<Redirect to="/" />);
+                }}
+              />
+              <Route
+                exact
                 path="/"
                 render={() => {
+                  if (this.state.signed_in && this.state.enrolled) {
+                    return (<Redirect to="/courses" />);
+                  }
                   if (this.state.signed_in) {
-                    return (<Department />);
+                    return (<Department enroll={this.enroll} />);
                   }
                   return (<Redirect to="/login" />);
                 }}

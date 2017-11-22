@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { departments, enroll } from '../../helpers/departments';
 import './Department.css';
@@ -36,7 +37,9 @@ class Department extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    enroll(this.state.department);
+    enroll(this.state.department).then(() => {
+      this.props.enroll();
+    });
   }
 
   createDropdownDepartments() {
@@ -95,4 +98,7 @@ class Department extends React.Component {
   }
 }
 
+Department.propTypes = {
+  enroll: PropTypes.func.isRequired,
+};
 export default Department;

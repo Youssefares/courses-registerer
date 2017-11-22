@@ -41,11 +41,11 @@ function isUserAuthenticated() {
     return Promise.resolve({ status: 401 });
   }
   return apiAuth(currentUser().token).then((response) => {
-    response.json().then((response) => {
-      if (response != null) {
-        localStorage.setItem('currentUser', JSON.stringify(response));
-      }
-    });
+    // response.json().then((response) => {
+    //   if (response != null) {
+    //     localStorage.setItem('currentUser', JSON.stringify(response));
+    //   }
+    // });
     return response;
   });
 }
