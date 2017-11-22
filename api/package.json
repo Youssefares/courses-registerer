@@ -9,7 +9,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "seed": "node db/seed.js",
+    "create_db": "node db/create.js",
+    "drop_db": "node db/drop.js",
+    "migrate_db": "for script in db/migrations/*.js; do node $script; done",
+    "seed_db": "node db/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

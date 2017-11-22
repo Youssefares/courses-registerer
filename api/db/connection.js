@@ -1,9 +1,10 @@
+require('dotenv').config();
 const mysql = require('promise-mysql');
 
 const pool = mysql.createPool({
   host: 'localhost',
-  user: 'root',
-  password: 'password',
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   database: 'registerer_dev',
   connectionLimit: 10
 });
