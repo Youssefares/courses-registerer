@@ -10,6 +10,7 @@ matrix:
         -DB_USER=root
       before_script:
         - cd api
+        - npm install
         - npm create_db
       script:
         - npm migrate_db
