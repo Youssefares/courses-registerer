@@ -1,0 +1,22 @@
+matrix:
+  include:
+    - language: node_js
+      node_js:
+        - "iojs"
+        - "7"
+      services:
+        - mysql
+      env:
+        -DB_USER=root
+      before_script:
+        - cd api
+        - npm create_db
+      script:
+        - npm migrate_db
+        - npm seed_db
+
+    - language: javascript
+      before_script:
+        - cd view-app
+      script:
+        - yarn
