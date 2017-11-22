@@ -11,10 +11,10 @@ matrix:
       before_script:
         - cd api
         - npm install
-        - npm create_db
+        - npm run create_db
       script:
-        - npm migrate_db
-        - npm seed_db
+        - npm run migrate_db
+        - npm run seed_db
 
     - language: javascript
       before_script:
