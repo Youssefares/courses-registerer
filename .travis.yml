@@ -2,15 +2,13 @@ matrix:
   include:
     - language: node_js
       node_js:
-        - "iojs"
-        - "7"
+        - "node"
       services:
         - mysql
       env:
         -DB_USER=root
       before_script:
         - cd api
-        - npm install
         - npm run create_db
       script:
         - npm run migrate_db
